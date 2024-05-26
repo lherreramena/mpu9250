@@ -10,6 +10,7 @@ do
     if [ -f $folder/bin/activate ]; then
         PYTHONENV_PATH=$folder
         break
+    fi
 done 
 
 source $PYTHONENV_PATH/bin/activate

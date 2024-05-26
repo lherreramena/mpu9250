@@ -83,19 +83,19 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--ini', type=int, required=False, default=0)
-    parser.add_argument('--step', type=int, required=False, default=10)
-    parser.add_argument('--end', type=int, required=False, default=90)
+    parser.add_argument('--ang_ini', type=int, required=False, default=0)
+    parser.add_argument('--ang_step', type=int, required=False, default=10)
+    parser.add_argument('--ang_nd', type=int, required=False, default=90)
     parser.add_argument('--samples', type=int, required=False, default=10)
-    parser.add_argument("--sleep", type=float, required=False, default=0.5)
+    parser.add_argument("--sleep_time", type=float, required=False, default=0.5)
 
     args = parser.parse_args()
 
-    ang_ini = parser.ini
-    ang_step = parser.step
-    ang_stop = parser.end
+    ang_ini = parser.ang_ini
+    ang_step = parser.ang_step
+    ang_stop = parser.ang_end
     samples = parser.samples
-    blank_time = parser.sleep
+    blank_time = parser.sleep_time
 
     logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG)
 
