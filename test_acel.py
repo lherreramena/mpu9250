@@ -9,7 +9,7 @@ from time import sleep
 
 import logging
 import argparse
-
+from datetime import datetime
 
 
 class ServoCtrl:
@@ -64,20 +64,38 @@ class Accelerometer:
         # Configure the MPU9250
         self.__mpu.configure()
 
+    def measure_to_str(self, label):
+        dt = datetime.now()
+        accel_data = self.__mpu.readAccelerometerMaster()
+        gyro_data = self.__mpu.readGyroscopeMaster()
+        mag_data = self.__mpu.readMagnetometerMaster()
+        str = datetime.timestamp(dt) + "," + label
+        for a in accel_data:
+            str = str + "," + f"{a}"
+        for a in gyro_data:
+            str = str + "," + f"{a}"
+        for a in mag_data:
+            str = str + "," + f"{a}"
+        return str
+        
 
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--ini', type=str, required=False, default=0)
-    parser.add_argument('--step', type=str, required=False, default=10)
-    parser.add_argument('--end', type=str, required=False, default=90)
+    parser.add_argument('--ini', type=int, required=False, default=0)
+    parser.add_argument('--step', type=int, required=False, default=10)
+    parser.add_argument('--end', type=int, required=False, default=90)
+    parser.add_argument('--samples', type=int, required=False, default=10)
+    parser.add_argument("--sleep", type=float, required=False, default=0.5)
 
     args = parser.parse_args()
 
     ang_ini = parser.ini
     ang_step = parser.step
     ang_stop = parser.end
+    samples = parser.samples
+    blank_time = parser.sleep
 
     logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG)
 
@@ -89,7 +107,11 @@ if __name__ == "__main__":
     sleep(0.2)
     
     for ang in range(ang_ini, ang_stop + 1, ang_step):
-        servo.move_to(ang)
+        pwd_val = servo.move_to(ang)
+        label = f"{ang},{pwd_val}"
+        for i in range(samples):
+            print(accel.measure_to_str())
+        sleep(blank_time)
         
 
 
