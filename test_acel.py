@@ -84,11 +84,11 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--ang_ini', type=int, required=False, default=0)
-    parser.add_argument('--ang_step', type=int, required=False, default=10)
-    parser.add_argument('--ang_end', type=int, required=False, default=90)
-    parser.add_argument('--samples', type=int, required=False, default=10)
-    parser.add_argument("--sleep_time", type=float, required=False, default=2.5)
+    parser.add_argument('-i', '--ang_ini', type=int, required=False, default=0)
+    parser.add_argument('-s', '--ang_step', type=int, required=False, default=10)
+    parser.add_argument('-e', '--ang_end', type=int, required=False, default=90)
+    parser.add_argument('-n', '--samples', type=int, required=False, default=10)
+    parser.add_argument('-t', "--sleep_time", type=float, required=False, default=2.5)
 
     args = parser.parse_args()
 

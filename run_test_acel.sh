@@ -20,6 +20,6 @@ OUTPUT_FILE=test_acel.log
 echo -e "Starting ..." > $OUTPUT_FILE
 tail -f $OUTPUT_FILE
 
-nohup python test_acel.py > $OUTPUT_FILE
+nohup python test_acel.py $@ > $OUTPUT_FILE
 
 
