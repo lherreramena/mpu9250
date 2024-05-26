@@ -91,11 +91,11 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    ang_ini = parser.ang_ini
-    ang_step = parser.ang_step
-    ang_stop = parser.ang_end
-    samples = parser.samples
-    blank_time = parser.sleep_time
+    ang_ini = args.ang_ini
+    ang_step = args.ang_step
+    ang_stop = args.ang_end
+    samples = args.samples
+    blank_time = args.sleep_time
 
     logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG)
 
