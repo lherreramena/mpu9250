@@ -88,7 +88,7 @@ if __name__ == "__main__":
     parser.add_argument('--ang_step', type=int, required=False, default=10)
     parser.add_argument('--ang_end', type=int, required=False, default=90)
     parser.add_argument('--samples', type=int, required=False, default=10)
-    parser.add_argument("--sleep_time", type=float, required=False, default=1.5)
+    parser.add_argument("--sleep_time", type=float, required=False, default=2.5)
 
     args = parser.parse_args()
 
