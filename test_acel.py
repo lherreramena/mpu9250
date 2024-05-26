@@ -110,7 +110,7 @@ if __name__ == "__main__":
         pwd_val = servo.move_to(ang)
         label = f"{ang},{pwd_val}"
         for i in range(samples):
-            print(accel.measure_to_str())
+            print(accel.measure_to_str(label))
         sleep(blank_time)
         
 
