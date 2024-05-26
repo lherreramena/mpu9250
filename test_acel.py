@@ -88,7 +88,7 @@ if __name__ == "__main__":
     parser.add_argument('--ang_step', type=int, required=False, default=10)
     parser.add_argument('--ang_end', type=int, required=False, default=90)
     parser.add_argument('--samples', type=int, required=False, default=10)
-    parser.add_argument("--sleep_time", type=float, required=False, default=0.5)
+    parser.add_argument("--sleep_time", type=float, required=False, default=1.5)
 
     args = parser.parse_args()
 
@@ -108,7 +108,8 @@ if __name__ == "__main__":
     sleep(0.2)
     
     for ang in range(ang_ini, ang_stop + 1, ang_step):
-        pwd_val = servo.move_to(ang)
+        servo.move_to(ang)
+        pwd_val = servo.current_pwd()
         label = f"{ang},{pwd_val}"
         for i in range(samples):
             print(accel.measure_to_str(label))
