@@ -69,7 +69,8 @@ class Accelerometer:
         accel_data = self.__mpu.readAccelerometerMaster()
         gyro_data = self.__mpu.readGyroscopeMaster()
         mag_data = self.__mpu.readMagnetometerMaster()
-        str = datetime.timestamp(dt) + "," + label
+        #time_stamp = datetime.timestamp(dt)
+        str = dt + "," + label
         for a in accel_data:
             str = str + "," + f"{a}"
         for a in gyro_data:
