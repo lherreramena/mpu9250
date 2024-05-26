@@ -34,8 +34,8 @@ class ServoCtrl:
         GPIO.cleanup() # Clean up all the ports we've used.
 
     def move_to(self, ang):
-        if ang < -90  or ang > 90:
-            return False
+        #if ang < -90  or ang > 90:
+        #    return False
         self.__current_ang = ang
         self.__current_pww = 5 + (ang + 90) * 5 / 180 
         self.__pwm.ChangeDutyCycle(self.__current_pww)
