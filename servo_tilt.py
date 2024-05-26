@@ -15,19 +15,20 @@ GPIO.setup(16, GPIO.OUT)
 pwm = GPIO.PWM(16, 50)
 pwm.start(0) # Start the servo with 0 duty cycle ( at 0 deg position )
 print(1)
+sleep(2)
 
+for dc in range(7.5 , 12.6, 2.5):
+    pwm.ChangeDutyCycle(dc) # Tells the servo to turn to the neutral position ( at 0 deg position )
+    print(f"({dc}) at 0 deg position")
+    sleep(2) # Tells the servo to Delay for 5sec
 
-pwm.ChangeDutyCycle(7.5) # Tells the servo to turn to the neutral position ( at 0 deg position )
-print("at 0 deg position")
-sleep(2) # Tells the servo to Delay for 5sec
+#pwm.ChangeDutyCycle(10) # Tells the servo to turn to the right ( +90 deg position )
+#print("+90 deg position")
+#sleep(2) # Tells the servo to Delay for 5sec
 
-pwm.ChangeDutyCycle(10) # Tells the servo to turn to the right ( +90 deg position )
-print("+90 deg position")
-sleep(2) # Tells the servo to Delay for 5sec
-
-pwm.ChangeDutyCycle(12.5) # Tells the servo to turn to the right ( +90 deg position )
-print("+135 deg position")
-sleep(2) # Tells the servo to Delay for 5sec
+#pwm.ChangeDutyCycle(12.5) # Tells the servo to turn to the right ( +90 deg position )
+##print("+135 deg position")
+#sleep(2) # Tells the servo to Delay for 5sec
 
 
 pwm.stop(0) # Stop the servo with 0 duty cycle ( at 0 deg position )

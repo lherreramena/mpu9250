@@ -109,6 +109,7 @@ if __name__ == "__main__":
     
     for ang in range(ang_ini, ang_stop + 1, ang_step):
         servo.move_to(ang)
+        sleep(0.5)
         pwd_val = servo.current_pwd()
         label = f"{ang},{pwd_val}"
         for i in range(samples):
