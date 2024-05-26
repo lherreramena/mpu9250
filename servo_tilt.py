@@ -17,7 +17,7 @@ pwm.start(0) # Start the servo with 0 duty cycle ( at 0 deg position )
 print(1)
 sleep(2)
 
-for dc in range(7.5 , 12.6, 2.5):
+for dc in [7.5 , 10, 12.5]:
     pwm.ChangeDutyCycle(dc) # Tells the servo to turn to the neutral position ( at 0 deg position )
     print(f"({dc}) at 0 deg position")
     sleep(2) # Tells the servo to Delay for 5sec
