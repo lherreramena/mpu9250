@@ -85,7 +85,7 @@ if __name__ == "__main__":
 
     parser.add_argument('--ang_ini', type=int, required=False, default=0)
     parser.add_argument('--ang_step', type=int, required=False, default=10)
-    parser.add_argument('--ang_nd', type=int, required=False, default=90)
+    parser.add_argument('--ang_end', type=int, required=False, default=90)
     parser.add_argument('--samples', type=int, required=False, default=10)
     parser.add_argument("--sleep_time", type=float, required=False, default=0.5)
 
