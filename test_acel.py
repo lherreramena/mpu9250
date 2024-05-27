@@ -34,8 +34,8 @@ class ServoCtrl:
         GPIO.cleanup() # Clean up all the ports we've used.
 
     def move_to(self, ang):
-        if ang < -90  or ang > 90:
-            return False
+        #if ang < -90  or ang > 90:
+        #    return False
         self.__current_ang = ang
         self.__current_pww = 5 + (ang + 90) * 5 / 180 
         self.__pwm.ChangeDutyCycle(self.__current_pww)
@@ -69,7 +69,8 @@ class Accelerometer:
         accel_data = self.__mpu.readAccelerometerMaster()
         gyro_data = self.__mpu.readGyroscopeMaster()
         mag_data = self.__mpu.readMagnetometerMaster()
-        str = datetime.timestamp(dt) + "," + label
+        #time_stamp = datetime.timestamp(dt)
+        str =f"{dt}" + "," + label
         for a in accel_data:
             str = str + "," + f"{a}"
         for a in gyro_data:
@@ -83,19 +84,19 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--ini', type=int, required=False, default=0)
-    parser.add_argument('--step', type=int, required=False, default=10)
-    parser.add_argument('--end', type=int, required=False, default=90)
-    parser.add_argument('--samples', type=int, required=False, default=10)
-    parser.add_argument("--sleep", type=float, required=False, default=0.5)
+    parser.add_argument('-i', '--ang_ini', type=int, required=False, default=0)
+    parser.add_argument('-s', '--ang_step', type=int, required=False, default=10)
+    parser.add_argument('-e', '--ang_end', type=int, required=False, default=90)
+    parser.add_argument('-n', '--samples', type=int, required=False, default=10)
+    parser.add_argument('-t', "--sleep_time", type=float, required=False, default=2.5)
 
     args = parser.parse_args()
 
-    ang_ini = parser.ini
-    ang_step = parser.step
-    ang_stop = parser.end
-    samples = parser.samples
-    blank_time = parser.sleep
+    ang_ini = args.ang_ini
+    ang_step = args.ang_step
+    ang_stop = args.ang_end
+    samples = args.samples
+    blank_time = args.sleep_time
 
     logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG)
 
@@ -107,10 +108,12 @@ if __name__ == "__main__":
     sleep(0.2)
     
     for ang in range(ang_ini, ang_stop + 1, ang_step):
-        pwd_val = servo.move_to(ang)
+        servo.move_to(ang)
+        sleep(0.5)
+        pwd_val = servo.current_pwd()
         label = f"{ang},{pwd_val}"
         for i in range(samples):
-            print(accel.measure_to_str())
+            print(accel.measure_to_str(label))
         sleep(blank_time)
         
 

@@ -10,6 +10,7 @@ do
     if [ -f $folder/bin/activate ]; then
         PYTHONENV_PATH=$folder
         break
+    fi
 done 
 
 source $PYTHONENV_PATH/bin/activate
@@ -19,6 +20,6 @@ OUTPUT_FILE=test_acel.log
 echo -e "Starting ..." > $OUTPUT_FILE
 tail -f $OUTPUT_FILE
 
-nohup python test_acel.py > $OUTPUT_FILE
+nohup python test_acel.py $@ > $OUTPUT_FILE
 
 
