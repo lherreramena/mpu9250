@@ -12,9 +12,13 @@ import argparse
 from datetime import datetime
 
 
+def print_timestamp(msg):
+    timestamp = datetime.now()
+    print(f"{timestamp},{msg}")
+    
 class ServoCtrl:
     def __init__(self) -> None:
-        logging.info("Starting Servo ...")
+        print_timestamp("Starting Servo ...")
         # Stops all warnings from appearing
         GPIO.setwarnings(False)
 
@@ -50,7 +54,7 @@ class ServoCtrl:
 
 class Accelerometer:
     def __init__(self) -> None:
-        logging.info("Starting Accelerometer ...")
+        print_timestamp("Starting Accelerometer ...")
         # Create an MPU9250 instance
         self.__mpu = MPU9250(
             address_ak=AK8963_ADDRESS,
@@ -100,7 +104,7 @@ if __name__ == "__main__":
 
     logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG)
 
-    logging.info("Starting Test Accelerometer ...")
+    print_timestamp("Starting Test Accelerometer ...")
 
     servo = ServoCtrl()
     sleep(0.2)
