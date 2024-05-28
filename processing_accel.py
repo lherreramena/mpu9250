@@ -38,32 +38,60 @@ def process_accel_log(accel_log):
         #sleep(5)
     return accel_data
 
+
 class accelData:
     def __init__(self, accel_data) -> None:
         self.__raw_data = accel_data
-        self.__accel_x = []
+        self.__accel = [[],[],[]]
+        self.__accel_proc = [[],[],[]]
         
-    def getAccel_X(self):
-        if len(self.__accel_x) == 0:
+    def getAccel_Axis(self, axe):
+        if len(self.__accel[axe]) == 0:
             key = list(self.__raw_data.keys())[0]
-            print(f"key={key}, type={type(key)}")
+            #print(f"key={key}, type={type(key)}")
             #self.__accel_x = self.__raw_data[key]['sensors'][0]['data'][0]
-            print (self.__raw_data[key]['sensors'][0]['data'][0])
-            print(self.__raw_data[key]['sensors'][1]['data'][0])
-            self.__accel_x = [ sensors['data'][0] for sensors in self.__raw_data[key]['sensors'] ]
-        return self.__accel_x
+            #print (self.__raw_data[key]['sensors'][0]['data'][0])
+            #print(self.__raw_data[key]['sensors'][1]['data'][0])
+            for key in self.__raw_data:
+                rawData = [ sensors['data'][axe] for sensors in self.__raw_data[key]['sensors']]
+                self.__accel[axe].extend(rawData)
+                rawData.sort()
+                rawDiff = [ y - x for x,y in zip(rawData[:-1], rawData[1:]) ]
+                #rawDiff.sort()
+                self.__accel_proc[axe].extend(rawDiff)
+        #print("Axe=", axis[:3])
+        self.__accel_proc[axe].sort()
+        return self.__accel[axe]
+
+    def getAccelProc_Axis(self, axe):
+        return self.__accel_proc[axe]
     
+            
+
 if __name__ == "__main__":
     logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)
-    filename = "accel_test_01.log"
+    filename = "accel_test_02.log"
     accel_log = read_log(filename)
     accel_data = accelData(process_accel_log(accel_log))
     
     #print (accel_data)
-    data1 = accel_data.getAccel_X()
-    print(data1[:3])
-    fig, axs = plt.subplots(1, 2, figsize=(5, 2.7), layout='constrained')
-    xdata = np.arange(len(data1))  # make an ordinal for this
+    dataX = accel_data.getAccel_Axis(0)
+    dataY = accel_data.getAccel_Axis(1)
+    dataZ = accel_data.getAccel_Axis(2)
+    
+    dataProcX = accel_data.getAccelProc_Axis(0)
+    print("pp=", dataProcX)
+    dataProcY = accel_data.getAccelProc_Axis(1)
+    dataProcZ = accel_data.getAccelProc_Axis(2)
+    #print("X=", data1[:3])
+    
+    fig, axs = plt.subplots(1, 3, figsize=(5, 2.7), layout='constrained')
+    xdata = np.arange(len(dataX))  # make an ordinal for this
+    xdataProc = np.arange(len(dataProcX))
     #data = 10**data1
-    axs[0].plot(xdata, data1)
+    axs[0].plot(xdata, dataX)
+    axs[1].plot(xdataProc, dataProcX)
+    axs[2].plot(xdata, dataZ)
+
+    plt.show()
     
