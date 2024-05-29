@@ -38,11 +38,23 @@ def process_accel_log(accel_log):
         #sleep(5)
     return accel_data
 
+class BinData:
+    def __init__(self, rawData) -> None:
+        self.__rawData = rawData
+        self.__histo = {}
+        for x in self.__rawData:
+            self.__histo[x] = self.__histo[x] + 1 if x in self.__histo else 1
+        values = [ float(x) for x in self.__histo ]
+        diffs = [ y -x for x,y in zip(values[:-1], values[1:]) ]
+        #val_sorted = {k: v for k, v in sorted(values.items(), key=lambda item: item[1])}
+        val_sorted = dict(sorted(values.items(), key=lambda item: item[1]), reverse=True)
+        
 
 class accelData:
     def __init__(self, accel_data) -> None:
         self.__raw_data = accel_data
         self.__accel = [[],[],[]]
+        self.__accel_by_step = [[],[],[]]
         self.__accel_proc = [[],[],[]]
         
     def getAccel_Axis(self, axe):
@@ -57,8 +69,9 @@ class accelData:
                 self.__accel[axe].extend(rawData)
                 rawData.sort()
                 rawDiff = [ y - x for x,y in zip(rawData[:-1], rawData[1:]) ]
-                #rawDiff.sort()
-                self.__accel_proc[axe].extend(rawDiff)
+                self.__accel_proc[axe].append(rawDiff)
+                self.__accel_by_step[axe].append(rawData)
+                
         #print("Axe=", axis[:3])
         self.__accel_proc[axe].sort()
         return self.__accel[axe]
@@ -79,10 +92,10 @@ if __name__ == "__main__":
     dataY = accel_data.getAccel_Axis(1)
     dataZ = accel_data.getAccel_Axis(2)
     
-    dataProcX = accel_data.getAccelProc_Axis(0)
+    dataProcX = accel_data.getAccelProc_Axis(0)[1]
     print("pp=", dataProcX)
-    dataProcY = accel_data.getAccelProc_Axis(1)
-    dataProcZ = accel_data.getAccelProc_Axis(2)
+    dataProcY = accel_data.getAccelProc_Axis(1)[1]
+    dataProcZ = accel_data.getAccelProc_Axis(2)[1]
     #print("X=", data1[:3])
     
     fig, axs = plt.subplots(1, 3, figsize=(5, 2.7), layout='constrained')
@@ -90,7 +103,7 @@ if __name__ == "__main__":
     xdataProc = np.arange(len(dataProcX))
     #data = 10**data1
     axs[0].plot(xdata, dataX)
-    axs[1].plot(xdataProc, dataProcX)
+    axs[1].plot(xdata, dataY)
     axs[2].plot(xdata, dataZ)
 
     plt.show()
